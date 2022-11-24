@@ -17,7 +17,7 @@ func main() {
 	<-done
 }
 
-func produce(chn chan int) {
+func produce(chn chan<- int) {
 	for _, v := range input {
 		chn <- v
 		time.Sleep(1 * time.Second)
@@ -25,7 +25,7 @@ func produce(chn chan int) {
 	close(chn)
 }
 
-func consume(chn chan int, done chan struct{}) {
+func consume(chn <-chan int, done chan<- struct{}) {
 	for i := range chn {
 		fmt.Printf("Consumer received: %v\n", i)
 		time.Sleep(250 * time.Millisecond)

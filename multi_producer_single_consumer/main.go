@@ -14,16 +14,16 @@ func main() {
 
 	for i := 0; i < len(input); i++ {
 		wg.Add(1)
-		go producer(i, jobs, &wg)
+		go produce(i, jobs, &wg)
 	}
-	go consumer(jobs, done)
+	go consume(jobs, done)
 
 	wg.Wait()
 	close(jobs)
 	<-done
 }
 
-func producer(idx int, chn chan<- int, wg *sync.WaitGroup) {
+func produce(idx int, chn chan<- int, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	for _, v := range input[idx] {
@@ -31,7 +31,7 @@ func producer(idx int, chn chan<- int, wg *sync.WaitGroup) {
 	}
 }
 
-func consumer(chn <-chan int, done chan<- struct{}) {
+func consume(chn <-chan int, done chan<- struct{}) {
 	for v := range chn {
 		fmt.Printf("Consumer received: %v\n", v)
 	}

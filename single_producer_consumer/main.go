@@ -11,13 +11,13 @@ func main() {
 	jobs := make(chan int)
 	done := make(chan struct{})
 
-	go producer(jobs)
-	go consumer(jobs, done)
+	go produce(jobs)
+	go consume(jobs, done)
 
 	<-done
 }
 
-func producer(chn chan int) {
+func produce(chn chan int) {
 	for _, v := range input {
 		chn <- v
 		time.Sleep(1 * time.Second)
@@ -25,7 +25,7 @@ func producer(chn chan int) {
 	close(chn)
 }
 
-func consumer(chn chan int, done chan struct{}) {
+func consume(chn chan int, done chan struct{}) {
 	for i := range chn {
 		fmt.Printf("Consumer received: %v\n", i)
 		time.Sleep(250 * time.Millisecond)

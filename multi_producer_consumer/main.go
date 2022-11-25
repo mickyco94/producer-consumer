@@ -18,9 +18,9 @@ func main() {
 
 	for i := 0; i < len(input); i++ {
 		producerWg.Add(1)
-		go producer(i, jobs, &producerWg)
+		go produce(i, jobs, &producerWg)
 	}
-	go consumer(jobs, &consumerWg)
+	go consume(jobs, &consumerWg)
 
 	producerWg.Wait()
 	close(jobs)

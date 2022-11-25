@@ -22,7 +22,7 @@ func main() {
 	<-done
 }
 
-func produce(chn chan int) {
+func produce(chn chan<- int) {
 	for _, v := range input {
 		chn <- v
 		time.Sleep(1 * time.Second)
@@ -30,10 +30,11 @@ func produce(chn chan int) {
 	close(chn)
 }
 
-func consume(chn chan int, done chan struct{}, sig <-chan os.Signal) {
+func consume(chn chan int, done chan<- struct{}, sig <-chan os.Signal) {
 	for {
 		select {
 		case <-sig:
+			fmt.Printf("Shutting down\n")
 			done <- struct{}{}
 			return
 		case v, open := <-chn:

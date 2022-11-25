@@ -22,14 +22,14 @@ func main() {
 	<-done
 }
 
-func produce(chn chan int) {
+func produce(chn chan<- int) {
 	for _, v := range input {
 		chn <- v
 	}
 	close(chn)
 }
 
-func consume(idx int, chn chan int, done chan struct{}) {
+func consume(idx int, chn <-chan int, done chan<- struct{}) {
 	for i := range chn {
 		fmt.Printf("Consumer %v received: %v\n", idx, i)
 		time.Sleep(5 * time.Second)

@@ -21,6 +21,7 @@ func main() {
 		sig := make(chan os.Signal)
 		signal.Notify(sig, os.Interrupt)
 		<-sig
+		fmt.Printf("Shutting down\n")
 		cancel()
 	}()
 
